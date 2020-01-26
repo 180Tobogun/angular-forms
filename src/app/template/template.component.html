@@ -7,26 +7,59 @@
   </div>
 
   <form (ngSubmit)="processForm()" *ngIf="!submitted">
-    <div class="form-group">
-      <label>Name</label>
+    <div class="form-group"
+         [ngClass]="
+         {
+            'has-error': nameVar.invalid && nameVar.touched,
+            'has-success':  nameVar.valid && nameVar.touched
+         }">
+      <label for="name">Name</label>
       <input type="text"
              class="form-control"
              name="name"
+             id="name"
              required
              [(ngModel)]="user.name"
-             #nameVar>
-      {{nameVar.className}}
+             #nameVar="ngModel"
+             [ngClass]="
+                         {
+                            'is-invalid': nameVar.invalid && nameVar.touched,
+                            'in-valid':  nameVar.valid && nameVar.touched
+                         }">
+
+      <div class="invalid-feedback" *ngIf="nameVar.invalid && nameVar.touched">
+          Name is required.
+      </div>
+
+      Valid: {{nameVar.valid}} <br>
+      Touched: {{nameVar.touched}}
     </div>
 
-    <div class="form-group">
-      <label>Username</label>
+    <div class="form-group" [ngClass]="
+         {
+            'has-error': userNameVar.invalid && userNameVar.touched,
+            'has-success':  userNameVar.valid && userNameVar.touched
+         }">
+      <label for="username-id">Username</label>
       <input type="text"
              class="form-control"
              name="username"
+             id="username-id"
              required
              [(ngModel)]="user.userName"
-             #userNameVar>
-      {{userNameVar.className}}
+             #userNameVar="ngModel"
+             [ngClass]="
+                         {
+                            'is-invalid': userNameVar.invalid && userNameVar.touched,
+                            'in-valid':  userNameVar.valid && userNameVar.touched
+                         }">
+
+      <div class="invalid-feedback" *ngIf="userNameVar.invalid && userNameVar.touched">
+        UserName is required.
+      </div>
+
+      Valid: {{userNameVar.valid}} <br>
+      Touched: {{userNameVar.touched}}
     </div>
 
     <div class="form-group">
@@ -36,3 +69,6 @@
     {{diagnostic}}
   </form>
 </div>
+
+
+
