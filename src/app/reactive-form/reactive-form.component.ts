@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 
 @Component({
   selector: 'app-reactive-form',
@@ -8,7 +8,7 @@ import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
 })
 export class ReactiveFormComponent implements OnInit {
 
-  form: FormGroup;
+  reactiveForm: FormGroup;
   nameError: string;
   userNameError: string;
 
@@ -16,39 +16,67 @@ export class ReactiveFormComponent implements OnInit {
   }
 
   ngOnInit() {
-    // this.form = new FormGroup({
-    //   name: new FormControl(''),
-    //   username: new FormControl('')
-    // });
-
     // build our form
-
-    this.form = this.fb.group({
-      name: [''],
-      username: ['']
+    this.reactiveForm = this.fb.group({
+      name: ['', [
+        Validators.required,
+        Validators.minLength(3),
+        Validators.maxLength(6)
+      ]],
+      username: ['', [
+        Validators.required,
+        Validators.minLength(5),
+        Validators.maxLength(7),
+      ]],
     });
-
     // watch for changes and validate
-    this.form.valueChanges.subscribe(data => {
+    this.reactiveForm.valueChanges.subscribe(data => {
       console.log(data);
-      // validate each field
 
-      const name = this.form.get('name');
-      const username = this.form.get('username');
+      this.nameError = '';
+      this.userNameError = '';
+
+      // validate each field
+      const name = this.reactiveForm.get('name');
+      const username = this.reactiveForm.get('username');
 
       if (name.invalid && name.dirty) {
-        this.nameError = 'Name is Required';
+        if (name.errors.required) {
+          this.nameError = 'Name is Required';
+        }
+        if (name.errors.minLength) {
+          this.nameError = 'name must be at least 3 characters';
+        }
+        if (name.errors.maxLength) {
+          this.nameError = 'name must be at least 5 characters MAX';
+        }
       }
 
       if (username.invalid && username.dirty) {
-        this.userNameError = 'userName is Required';
+        if (username.errors.required) {
+          this.userNameError = 'Name is Required';
+        }
+        if (username.errors.minLength) {
+          this.userNameError = 'name must be at least 3 characters';
+        }
+        if (username.errors.maxLength) {
+          this.userNameError = 'name must be at least 5 characters MAX';
+        }
       }
     });
 
-    console.log(this.form);
+    console.log(this.reactiveForm);
+  }
+
+  get name() {
+    return this.reactiveForm.get('name');
+  }
+
+  get username() {
+    return this.reactiveForm.get('username');
   }
 
   processForm() {
-    console.log('form', this.form.value);
+    console.log('form', this.reactiveForm.value);
   }
 }
