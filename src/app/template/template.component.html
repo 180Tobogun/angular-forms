@@ -13,7 +13,9 @@
              class="form-control"
              name="name"
              required
-             [(ngModel)]="user.name">
+             [(ngModel)]="user.name"
+             #nameVar>
+      {{nameVar.className}}
     </div>
 
     <div class="form-group">
@@ -22,7 +24,9 @@
              class="form-control"
              name="username"
              required
-             [(ngModel)]="user.userName">
+             [(ngModel)]="user.userName"
+             #userNameVar>
+      {{userNameVar.className}}
     </div>
 
     <div class="form-group">
