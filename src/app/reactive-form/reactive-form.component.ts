@@ -16,6 +16,12 @@ export class ReactiveFormComponent implements OnInit {
   }
 
   ngOnInit() {
+    // build the data model for our form
+    this.buildForm();
+  }
+
+
+  buildForm() {
     // build our form
     this.reactiveForm = this.fb.group({
       name: ['', [
@@ -31,41 +37,42 @@ export class ReactiveFormComponent implements OnInit {
     });
     // watch for changes and validate
     this.reactiveForm.valueChanges.subscribe(data => {
-      console.log(data);
-
-      this.nameError = '';
-      this.userNameError = '';
-
-      // validate each field
-      const name = this.reactiveForm.get('name');
-      const username = this.reactiveForm.get('username');
-
-      if (name.invalid && name.dirty) {
-        if (name.errors.required) {
-          this.nameError = 'Name is Required';
-        }
-        if (name.errors.minLength) {
-          this.nameError = 'name must be at least 3 characters';
-        }
-        if (name.errors.maxLength) {
-          this.nameError = 'name must be at least 5 characters MAX';
-        }
-      }
-
-      if (username.invalid && username.dirty) {
-        if (username.errors.required) {
-          this.userNameError = 'Name is Required';
-        }
-        if (username.errors.minLength) {
-          this.userNameError = 'name must be at least 3 characters';
-        }
-        if (username.errors.maxLength) {
-          this.userNameError = 'name must be at least 5 characters MAX';
-        }
-      }
+      this.validateForm();
     });
-
     console.log(this.reactiveForm);
+  }
+
+  validateForm() {
+    this.nameError = '';
+    this.userNameError = '';
+
+    // validate each field
+    const name = this.reactiveForm.get('name');
+    const username = this.reactiveForm.get('username');
+
+    if (name.invalid && name.dirty) {
+      if (name.errors.required) {
+        this.nameError = 'Name is Required';
+      }
+      if (name.errors.minLength) {
+        this.nameError = 'name must be at least 3 characters';
+      }
+      if (name.errors.maxLength) {
+        this.nameError = 'name must be at least 5 characters MAX';
+      }
+    }
+
+    if (username.invalid && username.dirty) {
+      if (username.errors.required) {
+        this.userNameError = 'Name is Required';
+      }
+      if (username.errors.minLength) {
+        this.userNameError = 'name must be at least 3 characters';
+      }
+      if (username.errors.maxLength) {
+        this.userNameError = 'name must be at least 5 characters MAX';
+      }
+    }
   }
 
   get name() {
