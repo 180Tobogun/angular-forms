@@ -51,6 +51,12 @@ export class ReactiveFormComponent implements OnInit {
         Validators.minLength(5),
         Validators.maxLength(7),
       ]],
+      addresses: this.fb.array([
+        this.fb.group({
+          city: [''],
+          country: ['']
+        })
+      ])
     });
     // watch for changes and validate
     this.reactiveForm.valueChanges.subscribe(data => {

@@ -51,6 +51,27 @@
       </div>
     </div>
 
+    <div class="form-group" formArrayName="addresses">
+        <div *ngFor="let address of reactiveForm.controls.addresses.controls;let i = index;">
+          <div class="panel panel-primary">
+            <div class="panel-heading">
+              address № {{i + 1}}
+            </div>
+            <div class="panel-body" [formGroupName]="i">
+              <div class="form-group">
+                <label for="city">City</label>
+                <input type="text" class="form-control" formControlName="city" id="city" required>
+              </div>
+
+              <div class="form-group">
+                <label for="country">Country</label>
+                <input type="text" class="form-control" formControlName="country" id="country" required>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+
     <div class="form-group">
       <button type="submit" class="btn btn-danger">Submit</button>
     </div>
