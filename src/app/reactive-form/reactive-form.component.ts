@@ -9,8 +9,25 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 export class ReactiveFormComponent implements OnInit {
 
   reactiveForm: FormGroup;
-  nameError: string;
-  userNameError: string;
+  // nameError: string;
+  // userNameError: string;
+
+  formErrors = {
+    name: '',
+    username: ''
+  };
+  validationMessages = {
+    name: {
+      required: 'Name is Required',
+      minLength: 'name must be at least 3 characters',
+      maxLength: 'name must be 6 characters MAX'
+    },
+    username: {
+      required: 'userName is Required',
+      minLength: 'userName must be at least 5 characters',
+      maxLength: 'userName must be 7 characters MAX'
+    },
+  };
 
   constructor(private fb: FormBuilder) {
   }
@@ -43,36 +60,57 @@ export class ReactiveFormComponent implements OnInit {
   }
 
   validateForm() {
-    this.nameError = '';
-    this.userNameError = '';
+    for (const field in this.formErrors) {
+      // clear that input field errors
 
-    // validate each field
-    const name = this.reactiveForm.get('name');
-    const username = this.reactiveForm.get('username');
+      this.formErrors[field] = '';
 
-    if (name.invalid && name.dirty) {
-      if (name.errors.required) {
-        this.nameError = 'Name is Required';
-      }
-      if (name.errors.minLength) {
-        this.nameError = 'name must be at least 3 characters';
-      }
-      if (name.errors.maxLength) {
-        this.nameError = 'name must be at least 5 characters MAX';
+      // grab an input field by name
+
+      const input = this.reactiveForm.get(field);
+
+      if (input.invalid && input.dirty) {
+        // figure out the type of errors
+        // loop over the formErrors field names
+        console.log(input);
+        for (const error in input.errors) {
+          this.formErrors[field] = this.validationMessages[field][error];
+        }
+        // assign that type of error message to a var
+
       }
     }
 
-    if (username.invalid && username.dirty) {
-      if (username.errors.required) {
-        this.userNameError = 'Name is Required';
-      }
-      if (username.errors.minLength) {
-        this.userNameError = 'name must be at least 3 characters';
-      }
-      if (username.errors.maxLength) {
-        this.userNameError = 'name must be at least 5 characters MAX';
-      }
-    }
+    // this.nameError = '';
+    // this.userNameError = '';
+    //
+    // // validate each field
+    // const name = this.reactiveForm.get('name');
+    // const username = this.reactiveForm.get('username');
+    //
+    // if (name.invalid && name.dirty) {
+    //   if (name.errors.required) {
+    //     this.nameError = 'Name is Required';
+    //   }
+    //   if (name.errors.minLength) {
+    //     this.nameError = 'name must be at least 3 characters';
+    //   }
+    //   if (name.errors.maxLength) {
+    //     this.nameError = 'name must be at least 5 characters MAX';
+    //   }
+    // }
+    //
+    // if (username.invalid && username.dirty) {
+    //   if (username.errors.required) {
+    //     this.userNameError = 'Name is Required';
+    //   }
+    //   if (username.errors.minLength) {
+    //     this.userNameError = 'name must be at least 3 characters';
+    //   }
+    //   if (username.errors.maxLength) {
+    //     this.userNameError = 'name must be at least 5 characters MAX';
+    //   }
+    // }
   }
 
   get name() {
